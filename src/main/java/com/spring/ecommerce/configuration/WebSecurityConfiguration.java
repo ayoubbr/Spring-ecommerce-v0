@@ -36,14 +36,18 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-//    "/addNewProduct",
+    //    "/addNewProduct",
 //            "/getAllProducts", "/deleteProductDetails/{productId}","/getProductDetailsById/{productId}"
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.cors();
         httpSecurity.csrf().disable()
                 .authorizeRequests().antMatchers(
-                        "/authenticate", "/registerNewUser","/getAllProducts").permitAll()
+                        "/authenticate",
+                        "/registerNewUser",
+                        "/getProductDetailsById/{productId}",
+                        "/getAllProducts"
+                ).permitAll()
                 .antMatchers(HttpHeaders.ALLOW).permitAll()
                 .anyRequest().authenticated()
                 .and()
