@@ -3,6 +3,8 @@ package com.spring.ecommerce.service;
 import com.spring.ecommerce.dao.ProductDao;
 import com.spring.ecommerce.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -18,8 +20,9 @@ public class ProductService {
         return productDao.save(product);
     }
 
-    public List<Product> getAllProducts() {
-        return (List<Product>) productDao.findAll();
+    public List<Product> getAllProducts(int pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber, 12);
+        return productDao.findAll(pageable);
     }
 
     public Product getProductDetailsById(Integer productId) {
