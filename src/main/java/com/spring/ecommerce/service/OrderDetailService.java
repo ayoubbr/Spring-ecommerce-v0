@@ -1,6 +1,7 @@
 package com.spring.ecommerce.service;
 
 import com.spring.ecommerce.configuration.JwtRequestFilter;
+import com.spring.ecommerce.dao.CartDao;
 import com.spring.ecommerce.dao.OrderDetailDao;
 import com.spring.ecommerce.dao.ProductDao;
 import com.spring.ecommerce.dao.UserDao;
@@ -19,8 +20,10 @@ public class OrderDetailService {
     private ProductDao productDao;
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private CartDao cartDao;
 
-    public void placeOrder(OrderInput orderInput) {
+    public void placeOrder(OrderInput orderInput, boolean isSingleProductCheckout) {
         List<OrderProductQuantity> productQuantityList = orderInput.getOrderProductQuantityList();
 
         for (OrderProductQuantity o : productQuantityList) {
@@ -38,6 +41,11 @@ public class OrderDetailService {
                     product,
                     user
             );
+            //empty the cart
+            if (!isSingleProductCheckout) {
+                List<Cart> carts = cartDao.findByUser(user);
+                carts.stream().forEach(x -> cartDao.delete(x));
+            }
             orderDetailDao.save(orderDetail);
         }
     }
