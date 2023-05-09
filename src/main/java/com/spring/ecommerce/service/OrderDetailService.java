@@ -8,6 +8,7 @@ import com.spring.ecommerce.dao.UserDao;
 import com.spring.ecommerce.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,5 +53,13 @@ public class OrderDetailService {
         List<OrderDetail> orderDetails = new ArrayList<>();
         orderDetailDao.findAll().forEach(x -> orderDetails.add(x));
         return orderDetails;
+    }
+
+    public void makeOrderAsDelivered(Integer orderId) {
+        OrderDetail orderDetail = orderDetailDao.findById(orderId).get();
+        if (orderDetail != null) {
+            orderDetail.setOrderStatus("Delivered");
+            orderDetailDao.save(orderDetail);
+        }
     }
 }
