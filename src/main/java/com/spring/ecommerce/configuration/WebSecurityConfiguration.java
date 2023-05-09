@@ -46,8 +46,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/authenticate",
                         "/registerNewUser",
                         "/getProductDetailsById/{productId}",
-                        "/getAllProducts"
-                ).permitAll()
+                        "/getAllProducts").permitAll()
                 .antMatchers(HttpHeaders.ALLOW).permitAll()
                 .anyRequest().authenticated()
                 .and()
