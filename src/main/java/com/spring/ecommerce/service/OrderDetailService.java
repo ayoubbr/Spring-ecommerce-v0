@@ -33,7 +33,12 @@ public class OrderDetailService {
             String currentUser = JwtRequestFilter.CURRENT_USER;
             User user = userDao.findById(currentUser).get();
 
-            OrderDetail orderDetail = new OrderDetail(orderInput.getFullName(), orderInput.getFullAddress(), orderInput.getContactNumber(), orderInput.getAlternateContactNumber(), ORDER_PLACED, product.getProductDiscountedPrice() * o.getQuantity(), product, user);
+            OrderDetail orderDetail = new OrderDetail(orderInput.getFullName(),
+                    orderInput.getFullAddress(), orderInput.getContactNumber(),
+                    orderInput.getAlternateContactNumber(), ORDER_PLACED,
+                    product.getProductDiscountedPrice() * o.getQuantity(),
+                    product,
+                    user);
             //empty the cart
             if (!isSingleProductCheckout) {
                 List<Cart> carts = cartDao.findByUser(user);
